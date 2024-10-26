@@ -13,6 +13,11 @@
             _filmType = filmType;
         }
         
+        public string GetName() 
+        {
+            return _name;
+        }
+        
         public decimal CalculateTotalPrice()
         {
             return CalculateTotalPrice(_seat);

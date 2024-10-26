@@ -63,12 +63,15 @@ namespace TugasPemesananTiket
             var isAnyAdditionalService = flowLayoutPanelAdditionalServices.Controls.OfType<CheckBox>().Any(r => r.Checked);
             
             decimal totalPrice = 0;
+            var additionalServiceText = "Tidak Dipilih";
             if (isAnyAdditionalService)
             {
                 var additionalServices = new List<AdditionalService>();
+                var additionalServiceTextList = new List<string>();
                 foreach (var checkBox in flowLayoutPanelAdditionalServices.Controls.OfType<CheckBox>()
                              .Where(r => r.Checked))
                 {
+                    additionalServiceTextList.Add(checkBox.Text);
                     switch (checkBox.Name) 
                     {
                         case "checkBoxFood":
@@ -79,12 +82,18 @@ namespace TugasPemesananTiket
                             break;
                     }
                 }
+                additionalServiceText = "\n  " + string.Join("\n  ", additionalServiceTextList);
                 totalPrice = ticket.CalculateTotalPrice(additionalServices.ToArray());
             } else {
                 totalPrice = ticket.CalculateTotalPrice();
             }
-            
-            labelPrice.Text = totalPrice.ToString("C");
+
+            MessageBox.Show(
+                "Nama: " + ticket.GetName() + 
+                "\nTipe Film: " + comboBoxFilm.Text + 
+                "\nTipe Kursi: " + seatRadioButton.Text + 
+                "\nLayanan Tambahan: " + additionalServiceText +
+                "\nTotal Price: " + totalPrice.ToString("C"));
         }
     }
 }
